@@ -3,9 +3,9 @@
 	Free to use!
 ]]
 
-local stringDiff = {}
+local stringdiff = {}
 
-function stringDiff.longestWord(a: string, b: string): (string, string)
+function stringdiff.longestWord(a: string, b: string): (string, string)
 	-- Commutative; makes a the longest string.
 	if #a < #b then
 		a, b = b, a
@@ -13,7 +13,7 @@ function stringDiff.longestWord(a: string, b: string): (string, string)
 	return a, b
 end
 
-function stringDiff.longestNumber(a: number, b: number): (number, number)
+function stringdiff.longestNumber(a: number, b: number): (number, number)
 	-- Commutative; makes a the longest number.
 	if a < b then
 		a, b = b, a
@@ -21,7 +21,7 @@ function stringDiff.longestNumber(a: number, b: number): (number, number)
 	return a, b
 end
 
-function stringDiff.longestCommonMatch(a: string, b: string): (string, number)
+function stringdiff.longestCommonMatch(a: string, b: string): (string, number)
 	-- Create an empty table to store the matches & count all matches.
 	local matches: { [number]: string } = {}
 	local all_match_count = 0
@@ -57,7 +57,7 @@ function stringDiff.longestCommonMatch(a: string, b: string): (string, number)
 	return table.concat(matches), all_match_count
 end
 
-function stringDiff.perfectCommonMatchCalc(sentence: string): number
+function stringdiff.perfectCommonMatchCalc(sentence: string): number
 	--[[
 		In an ideal scenario, how many common matches would be made?
 		If both strings are "aaabb" it's (equation):
@@ -78,25 +78,25 @@ function stringDiff.perfectCommonMatchCalc(sentence: string): number
 
 	local total_matches = 0
 
-	for _, count in pairs(counts) do
+	for _, count in counts do
 		total_matches += count * count
 	end
 
 	return total_matches
 end
 
-function stringDiff.compare(a: string, b: string): (number, string)
+function stringdiff.compare(a: string, b: string): (number, string)
 	-- Core functionality:
-	local a, b = stringDiff.longestWord(a, b)
+	local a, b = stringdiff.longestWord(a, b)
 
 	-- Just no point in comparing such small strings. Lift restriction if you feel like it.
 	if #a < 1 then
 		error("Strings are too short to compare.")
 	end
 
-	local perfect_match_count = stringDiff.perfectCommonMatchCalc(a)
+	local perfect_match_count = stringdiff.perfectCommonMatchCalc(a)
 
-	local longest_match, all_match_count = stringDiff.longestCommonMatch(a, b)
+	local longest_match, all_match_count = stringdiff.longestCommonMatch(a, b)
 
 	-- Core ratio logic calculation:
 	local matches_length_compared = (#longest_match / #a) * 100 -- How big of a portion does the largest match take out of the sentence?
@@ -107,9 +107,9 @@ function stringDiff.compare(a: string, b: string): (number, string)
 	local average_count_match_ratio = (matches_length_compared + match_count_similarity) / 2 -- Average out most important percentages, match length portion and count similarity for best result.
 
 	-- We want to calculate how much we should change the ratio.
-	local a_calc, b_calc = stringDiff.longestNumber(average_count_match_ratio, string_length_similarity)
+	local a_calc, b_calc = stringdiff.longestNumber(average_count_match_ratio, string_length_similarity)
 
-	local ratio = average_count_match_ratio * (((b_calc / a_calc) * 100) / 100)
+	local ratio = average_count_match_ratio * ((b_calc / a_calc) / 100)
 
 	--[[
 		In a scenario where A and B are "Hey" and "How", you might think their general appearance,
@@ -121,4 +121,4 @@ function stringDiff.compare(a: string, b: string): (number, string)
 	return ratio, longest_match
 end
 
-return stringDiff
+return stringdiff

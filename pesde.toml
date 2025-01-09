@@ -1,9 +1,10 @@
 name = "caveful_games/stringdiff"
 version = "0.1.0"
-description = "A string similarity metric diffing algorithm invented by splinestein for primitive chat bot use. for pesde"
+description = "A string similarity metric diffing algorithm invented by splinestein for primitive chat bot use. Modified and uploaded for pesde"
 authors = ["Spline", "jiwonz <me@jiwonz.kr>"]
 repository = "https://github.com/CavefulGames/stringdiff"
 license = "MIT"
+includes = ["pesde.toml", "LICENSE.md", "src", ]
 
 [target]
 environment = "luau"
