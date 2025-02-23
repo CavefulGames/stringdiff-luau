@@ -1,27 +1,52 @@
---[[
-	String similarity metric system / splinestein diffing algorithm.
-	Free to use!
-]]
+--!native
 
+-- String similarity metric system / splinestein diffing algorithm.
+-- Free to use!
+-- Modified by jiwonz
+
+--[=[
+	@class stringdiff
+
+	# [stringdiff-luau](https://pesde.dev/packages/caveful_games/stringdiff)
+	A string similarity metric diffing algorithm invented by splinestein for primitive chat bot use.
+
+	This is a fork of [splinestein/splinestein-diffing-algorithm](https://github.com/splinestein/splinestein-diffing-algorithm)
+
+	Modified for Luau(+Roblox) and pesde.
+
+	* Link to module: https://www.roblox.com/library/12088663460/StringDiff
+	* Open source and can be viewed here: https://github.com/splinestein/splinestein-diffing-algorithm/blob/main/stringdiff.lua
+	* Link to release thread: https://devforum.roblox.com/t/stringdiff-string-similarity-metric-diffing-algorithm/2131245
+
+	**How to use?**
+
+	Install a package via `pesde`
+	```sh
+	pesde add caveful_games/stringdiff
+	```
+
+	I've tested this for primitive chat bot use and it's working nicely.
+
+	It is worth mentioning that this will have O(n) complexity if iterating over any dataset, so keep the dataset
+	small unless you use better querying techniques on the dataset like FTS.
+
+	Hope you enjoy. Feel free to suggest any changes.
+]=]
 local stringdiff = {}
 
-function stringdiff.longestWord(a: string, b: string): (string, string)
-	-- Commutative; makes a the longest string.
-	if #a < #b then
-		a, b = b, a
-	end
-	return a, b
-end
+--[=[
+	@within stringdiff
 
-function stringdiff.longestNumber(a: number, b: number): (number, number)
-	-- Commutative; makes a the longest number.
-	if a < b then
-		a, b = b, a
-	end
-	return a, b
-end
+	Finds the longest common match between two strings.
 
-function stringdiff.longestCommonMatch(a: string, b: string): (string, number)
+	```lua
+	local a = "Hello, world!"
+	local b = "Hello, Caveful Games!"
+	local match, count = stringdiff.getLongestMatch(a, b)
+	print(match, count) -- "Hello, ", 7
+	```
+]=]
+function stringdiff.getLongestMatch(a: string, b: string): (string, number)
 	-- Create an empty table to store the matches & count all matches.
 	local matches: { [number]: string } = {}
 	local all_match_count = 0
@@ -57,6 +82,17 @@ function stringdiff.longestCommonMatch(a: string, b: string): (string, number)
 	return table.concat(matches), all_match_count
 end
 
+--[=[
+	@within stringdiff
+
+	Calculates the perfect common match count for a given sentence.
+
+	```lua
+	local sentence = "aaabb"
+	local count = stringdiff.perfectCommonMatchCalc(sentence)
+	print(count) -- 13
+	```
+]=]
 function stringdiff.perfectCommonMatchCalc(sentence: string): number
 	--[[
 		In an ideal scenario, how many common matches would be made?
@@ -85,9 +121,23 @@ function stringdiff.perfectCommonMatchCalc(sentence: string): number
 	return total_matches
 end
 
+--[=[
+	@within stringdiff
+
+	Compares two strings and returns a similarity ratio and the longest common match.
+
+	```lua
+	local a = "Hello, world!"
+	local b = "Hello, Caveful Games!"
+	local ratio, match = stringdiff.compare(a, b)
+	print(ratio, match) -- 50, "Hello, "
+	```
+]=]
 function stringdiff.compare(a: string, b: string): (number, string)
 	-- Core functionality:
-	local a, b = stringdiff.longestWord(a, b)
+	if #a < #b then
+		a, b = b, a
+	end
 
 	-- Just no point in comparing such small strings. Lift restriction if you feel like it.
 	if #a < 1 then
@@ -96,7 +146,7 @@ function stringdiff.compare(a: string, b: string): (number, string)
 
 	local perfect_match_count = stringdiff.perfectCommonMatchCalc(a)
 
-	local longest_match, all_match_count = stringdiff.longestCommonMatch(a, b)
+	local longest_match, all_match_count = stringdiff.getLongestMatch(a, b)
 
 	-- Core ratio logic calculation:
 	local matches_length_compared = (#longest_match / #a) * 100 -- How big of a portion does the largest match take out of the sentence?
@@ -107,7 +157,10 @@ function stringdiff.compare(a: string, b: string): (number, string)
 	local average_count_match_ratio = (matches_length_compared + match_count_similarity) / 2 -- Average out most important percentages, match length portion and count similarity for best result.
 
 	-- We want to calculate how much we should change the ratio.
-	local a_calc, b_calc = stringdiff.longestNumber(average_count_match_ratio, string_length_similarity)
+	local a_calc, b_calc = average_count_match_ratio, string_length_similarity -- stringdiff.longestNumber(average_count_match_ratio, string_length_similarity)
+	if average_count_match_ratio < string_length_similarity then
+		a_calc, b_calc = string_length_similarity, average_count_match_ratio
+	end
 
 	local ratio = average_count_match_ratio * ((b_calc / a_calc) / 100)
 
