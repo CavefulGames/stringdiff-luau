@@ -170,11 +170,11 @@ luau_lsp = [{ name = "pesde/luau_lsp", version = "^1.38.1", index = "https://git
 selene = [{ name = "pesde/selene", version = "^0.27.1", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "dev"]
 stylua = [{ name = "pesde/stylua", version = "^2.0.2", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "dev"]
 
-[graph."jiwonz/multitarget@0.4.0-rc.27 lune"]
-direct = ["multitarget", { name = "jiwonz/multitarget", version = "^0.4.0-rc.27", index = "default" }, "dev"]
+[graph."jiwonz/multitarget@0.4.0-rc.28 lune"]
+direct = ["multitarget", { name = "jiwonz/multitarget", version = "^0.4.0-rc.28", index = "default" }, "dev"]
 resolved_ty = "dev"
 
-[graph."jiwonz/multitarget@0.4.0-rc.27 lune".dependencies]
+[graph."jiwonz/multitarget@0.4.0-rc.28 lune".dependencies]
 "caveful_games/argparse@0.1.2 lune" = "argparse"
 "caveful_games/table_helper@0.2.0-rc.1 luau" = "table_helper"
 "corecii/greentea@0.4.11 lune" = "greentea"
@@ -185,11 +185,11 @@ resolved_ty = "dev"
 "lukadev_0/result@1.2.0 lune" = "result"
 "pesde/darklua@0.16.0 lune" = "darklua"
 
-[graph."jiwonz/multitarget@0.4.0-rc.27 lune".pkg_ref]
+[graph."jiwonz/multitarget@0.4.0-rc.28 lune".pkg_ref]
 ref_ty = "pesde"
 index_url = "https://github.com/pesde-pkg/index"
 
-[graph."jiwonz/multitarget@0.4.0-rc.27 lune".pkg_ref.dependencies]
+[graph."jiwonz/multitarget@0.4.0-rc.28 lune".pkg_ref.dependencies]
 argparse = [{ name = "caveful_games/argparse", version = "^0.1.2", index = "https://github.com/pesde-pkg/index" }, "standard"]
 chalk_luau = [{ name = "kimpure/chalk_luau", version = "^0.1.2", index = "https://github.com/pesde-pkg/index", target = "luau" }, "standard"]
 darklua = [{ name = "pesde/darklua", version = "^0.16.0", index = "https://github.com/pesde-pkg/index" }, "peer"]
