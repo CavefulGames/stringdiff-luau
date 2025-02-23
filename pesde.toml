@@ -4,7 +4,7 @@ description = "A string similarity metric diffing algorithm invented by splinest
 authors = ["Spline", "jiwonz <me@jiwonz.kr>"]
 repository = "https://github.com/CavefulGames/stringdiff"
 license = "MIT"
-includes = ["pesde.toml", "LICENSE.md", "src", ]
+includes = ["pesde.toml", "LICENSE", "src/**", "README.md"]
 
 [target]
 environment = "luau"
